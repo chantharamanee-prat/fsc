@@ -36,7 +36,7 @@ interface WriteOptions {
  +data: string | Buffer | Stream
  +path: string
  +directory: string
- +tags?: Record<string, string>[]
+ +tags?: Record<string, string>
 }
 
 interface ListOptions {
@@ -50,14 +50,19 @@ enum Encoding {
 }
 
 interface FileObject {
- +data: string | Buffer | Stream
- +path: string
- +directory: string
- +tags: Record<string, string>[]
+ +data?: string | Buffer | ReadableStream 
+ +path?: string
+ +directory?: string 
+ +tags?: Record<string, string>
  +versionId?: string
  +type?: string
  +size?: number
 }
+
+class FSC implements IFileSystemCloud {
+ -adapter: IFileSystemCloud
+}
+
 @enduml
 -->
 

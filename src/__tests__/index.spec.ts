@@ -39,9 +39,9 @@ describe("Test index apps", () => {
       data: faker.word.noun({ strategy: "longest" }),
       directory: faker.word.noun(),
       path: faker.word.noun(),
-      tags: [{
+      tags: {
         [`${faker.word.noun()}`]: faker.word.noun(),
-      }],
+      },
     };
     const result = await fsc.write(mockWriteOptions);
 

@@ -1,5 +1,6 @@
-import { Stream } from "node:stream";
+import { Stream } from "stream";
 import { FileObject } from "./file-object.type";
+
 export enum Encoding {
   UTF8 = "utf8",
   ASCII = "ascii",
@@ -17,7 +18,7 @@ export interface WriteOptions {
   data: string | Buffer | Stream;
   path: string;
   directory: string;
-  tags?: Record<string, string>[];
+  tags?: Record<string, string>;
 }
 
 export interface DeleteOptions {
