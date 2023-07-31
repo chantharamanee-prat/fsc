@@ -1,40 +1,44 @@
 # Class Diagram
 
-<div hidden>
+<div style="display: none;">
 @startuml classDiagram
 interface IFileSystemCloud {
- +read(options: ReadOptions)
- +write(options: WriteOption)
- +delete(options: DeleteOptions)
- +copy(options: CopyOptions)
- +list(options: ListOptions)
+ +read(options: ReadOptions): Promise<FileObject>
+ +write(options: WriteOption): Promise<void>
+ +delete(options: DeleteOptions): Promise<void>
+ +copy(options: CopyOptions): Promise<void>
+ +list(options: ListOptions): Promise<FileObject[]>
 }
 
-class ReadOptions {
+interface ReadOptions {
  +path: string
  +directory: string
- +encoding: Encoding
+ +encoding?: Encoding
+ +versionId?: string
 }
 
-class DeleteOptions {
+interface DeleteOptions {
  +path: string
  +directory: string
+ +versionId?: string
 }
 
-class CopyOptions {
+interface CopyOptions {
  +from: string
  +to: string
  +directory: string
  +toDirectory: string
+ +versionId?: string
 }
 
-class WriteOptions {
+interface WriteOptions {
  +data: string | Buffer | Stream
  +path: string
  +directory: string
+ +tags: Record<string, string>[]
 }
 
-class ListOptions {
+interface ListOptions {
  +directory: string
 }
 
@@ -44,9 +48,19 @@ enum Encoding {
  +UTF16
 }
 
+class FileObject {
+ +data: string | Buffer | Stream
+ +path: string
+ +directory: string
+ +tags: Record<string, string>[]
+ +versionId?: string
+ +contentType?: string
+ +contentLength?: number
+}
+
 @enduml
 </div>
 
 ![](classDiagram.png)
 
-Some more markdown
+This is a class diagram for FSC 
