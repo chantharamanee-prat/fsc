@@ -61,6 +61,6 @@ interface FileObject {
 @enduml
 </div>
 
-![](CLASS_DIAGRAM.png)
+![](CLASS-DIAGRAM.png)
 
 This is a class diagram for FSC 
