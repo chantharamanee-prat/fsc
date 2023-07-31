@@ -79,7 +79,7 @@ interface VersionObject {
 
 interface Paging<T> {
  +data: T
- +nextToken: string
+ +next: string
 }
 
 class FSC implements IFileSystemCloud {
