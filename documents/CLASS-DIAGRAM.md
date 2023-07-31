@@ -1,6 +1,6 @@
 # Class Diagram
 
-<div style="display: none;">
+<!--
 @startuml
 skinparam handwritten true
 interface IFileSystemCloud {
@@ -59,7 +59,7 @@ interface FileObject {
  +size?: number
 }
 @enduml
-</div>
+-->
 
 ![](CLASS-DIAGRAM.png)
 
