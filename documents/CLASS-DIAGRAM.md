@@ -2,44 +2,53 @@
 
 <!--
 @startuml
+@startuml
+/'!theme sketchy-outline '/
 skinparam handwritten true
 interface IFileSystemCloud {
  +read(options: ReadOptions): Promise<FileObject>
- +write(options: WriteOption): Promise<void>
- +delete(options: DeleteOptions): Promise<void>
- +copy(options: CopyOptions): Promise<void>
- +list(options: ListOptions): Promise<FileObject[]>
+ +write(options: WriteOption): Promise<FileObject>
+ +delete(options: DeleteOptions): Promise<FileObject>
+ +copy(options: CopyOptions): Promise<FileObject>
+ +list(options: ListOptions): Promise<Paging<FileObject[]>>
+ +versions(options: VersionOptions): Promise<Paging<VersionObject[]>>
 }
+
 
 interface ReadOptions {
  +path: string
  +directory: string
  +encoding?: Encoding
- +versionId?: string
+ +version?: string
 }
 
 interface DeleteOptions {
  +path: string
  +directory: string
- +versionId?: string
+ +version?: string
 }
 
 interface CopyOptions {
  +from: string
  +to: string
  +directory: string
- +toDirectory: string
- +versionId?: string
+ +version?: string
 }
 
 interface WriteOptions {
  +data: string | Buffer | Stream
  +path: string
  +directory: string
+ +encoding?: Encoding
  +tags?: Record<string, string>
 }
 
 interface ListOptions {
+ +directory: string
+}
+
+interface VersionOptions {
+ +path: string
  +directory: string
 }
 
@@ -57,12 +66,36 @@ interface FileObject {
  +versionId?: string
  +type?: string
  +size?: number
+ +date?: Date
+ +latest?: boolean
+}
+
+interface VersionObject {
+ +versionId?: string
+ +size?: number
+ +date?: Date
+ +latest?: boolean
+}
+
+interface Paging<T> {
+ +data: T
+ +nextToken: string
 }
 
 class FSC implements IFileSystemCloud {
  -adapter: IFileSystemCloud
 }
 
+class AWSS3Adapter implements IFileSystemCloud {
+ #client: S3Client
+}
+
+class AzureBlobStorageAdapter implements IFileSystemCloud {
+ #client: BlobClient
+}
+
+FSC o-- AWSS3Adapter
+FSC o-- AzureBlobStorageAdapter
 @enduml
 -->
 
