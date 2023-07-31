@@ -1,6 +1,7 @@
 import {
   CopyOptions,
   DeleteOptions,
+  FileObject,
   IFileSystemCloud,
   ListOptions,
   ReadOptions,
@@ -14,7 +15,7 @@ export class FSC implements IFileSystemCloud {
     this.adapter = adapter;
   }
 
-  async read(options: ReadOptions): Promise<string | Buffer> {
+  async read(options: ReadOptions): Promise<FileObject> {
     return this.adapter.read(options);
   }
 
@@ -30,7 +31,7 @@ export class FSC implements IFileSystemCloud {
     return this.adapter.copy(options);
   }
 
-  async list(options: ListOptions): Promise<string[]> {
+  async list(options: ListOptions): Promise<FileObject[]> {
     return this.adapter.list(options);
   }
 }
