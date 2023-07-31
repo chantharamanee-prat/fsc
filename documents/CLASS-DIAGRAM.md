@@ -36,7 +36,7 @@ interface WriteOptions {
  +data: string | Buffer | Stream
  +path: string
  +directory: string
- +tags: Record<string, string>[]
+ +tags?: Record<string, string>[]
 }
 
 interface ListOptions {
