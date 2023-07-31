@@ -23,8 +23,8 @@ describe("Test index apps", () => {
 
   it("should call fsc.read method correctly", async () => {
     const mockReadOptions = {
-      directory: faker.word.noun(),
-      path: faker.word.noun(),
+      directory: faker.word.sample(),
+      path: faker.word.sample(),
     };
     const result = await fsc.read(mockReadOptions);
 
@@ -36,11 +36,11 @@ describe("Test index apps", () => {
   it("should call fsc.write method correctly", async () => {
 
     const mockWriteOptions = {
-      data: faker.word.noun({ strategy: "longest" }),
-      directory: faker.word.noun(),
-      path: faker.word.noun(),
+      data: faker.word.sample({ strategy: "longest" }),
+      directory: faker.word.sample(),
+      path: faker.word.sample(),
       tags: {
-        [`${faker.word.noun()}`]: faker.word.noun(),
+        [`${faker.word.sample()}`]: faker.word.sample(),
       },
     };
     const result = await fsc.write(mockWriteOptions);
@@ -53,8 +53,8 @@ describe("Test index apps", () => {
   it("should call fsc.copy method correctly", async () => {
 
     const mockCopyOptions = {
-      from: faker.word.noun(), to: faker.word.noun(), directory: faker.word.noun(), toDirectory: faker.word.noun(),
-      versionId: faker.word.noun()
+      from: faker.word.sample(), to: faker.word.sample(), directory: faker.word.sample(), toDirectory: faker.word.sample(),
+      versionId: faker.string.uuid()
     };
     const result = await fsc.copy(mockCopyOptions);
 
@@ -66,9 +66,9 @@ describe("Test index apps", () => {
   it("should call fsc.delete method correctly", async () => {
 
     const mockDeleteOptions = {
-      directory: faker.word.noun(),
-      path: faker.word.noun(),
-      versionId: faker.word.noun()
+      directory: faker.word.sample(),
+      path: faker.word.sample(),
+      versionId: faker.string.uuid()
     };
     const result = await fsc.delete(mockDeleteOptions);
 
@@ -80,7 +80,7 @@ describe("Test index apps", () => {
   it("should call fsc.list method correctly", async () => {
 
     const mockListOptions = {
-      directory: faker.word.noun(),
+      directory: faker.word.sample(),
       
     };
     const result = await fsc.list(mockListOptions);
