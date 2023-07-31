@@ -1,7 +1,8 @@
 # Class Diagram
 
 <div style="display: none;">
-@startuml classDiagram
+@startuml
+skinparam handwritten true
 interface IFileSystemCloud {
  +read(options: ReadOptions): Promise<FileObject>
  +write(options: WriteOption): Promise<void>
@@ -48,19 +49,18 @@ enum Encoding {
  +UTF16
 }
 
-class FileObject {
+interface FileObject {
  +data: string | Buffer | Stream
  +path: string
  +directory: string
  +tags: Record<string, string>[]
  +versionId?: string
- +contentType?: string
- +contentLength?: number
+ +type?: string
+ +size?: number
 }
-
 @enduml
 </div>
 
-![](classDiagram.png)
+![](CLASS_DIAGRAM.png)
 
 This is a class diagram for FSC 
