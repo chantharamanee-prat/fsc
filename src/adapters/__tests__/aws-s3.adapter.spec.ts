@@ -3,8 +3,10 @@ import {
   GetObjectCommand,
   GetObjectTaggingCommand,
   S3Client,
+  PutObjectCommand,
+  PutObjectTaggingCommand
 } from "@aws-sdk/client-s3";
-import { AWSAdapter } from "src/adapters/aws.adapter";
+import { AWSS3Adapter } from "src/adapters/aws-s3.adapter";
 import { Readable } from "stream";
 import { faker } from "@faker-js/faker";
 import { sdkStreamMixin } from "@aws-sdk/util-stream-node";
@@ -12,17 +14,17 @@ import { Encoding } from "src/types";
 import { ReadableStream } from "stream/web";
 describe("AWS Adapter", () => {
   let s3ClientMock: any;
-  let awsAdapter: AWSAdapter;
+  let awsAdapter: AWSS3Adapter;
   beforeEach(() => {
     s3ClientMock = mockClient(S3Client);
-    awsAdapter = new AWSAdapter(s3ClientMock as any);
+    awsAdapter = new AWSS3Adapter(s3ClientMock as any);
   });
 
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  it("should call AWSAdapter.read method correctly", async () => {
+  it("should call AWSAdapter.read correctly", async () => {
 
     const mockAwsAdapterRead = {
       directory: faker.word.sample(),
@@ -61,9 +63,22 @@ describe("AWS Adapter", () => {
       tags: {
         [mockTags.Key]:mockTags.Value 
       },
-      versionId: mockAwsAdapterRead.versionId,
+      version: mockAwsAdapterRead.versionId,
       type: undefined,
-      size: undefined
+      size: undefined,
+      date: undefined
     })
+  });
+
+  it('should call AWSAdapter.write correctly', async () => {
+    s3ClientMock.on(
+      PutObjectCommand,
+    ).resolves({
+
+    }).on(
+      PutObjectTaggingCommand,
+    ).resolves({
+     
+    });
   });
 });
