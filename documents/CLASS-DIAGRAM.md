@@ -2,7 +2,6 @@
 
 <!--
 @startuml
-@startuml
 /'!theme sketchy-outline '/
 skinparam handwritten true
 interface IFileSystemCloud {
@@ -14,42 +13,38 @@ interface IFileSystemCloud {
  +versions(options: VersionOptions): Promise<Paging<VersionObject[]>>
 }
 
-
-interface ReadOptions {
- +path: string
+interface BaseOptions {
  +directory: string
+ +path: string
+}
+
+interface ReadOptions extends BaseOptions {
  +encoding?: Encoding
  +version?: string
 }
 
-interface DeleteOptions {
- +path: string
- +directory: string
+interface DeleteOptions extends BaseOptions {
  +version?: string
 }
 
-interface CopyOptions {
- +from: string
+interface CopyOptions extends BaseOptions {
  +to: string
- +directory: string
  +version?: string
 }
 
-interface WriteOptions {
+interface WriteOptions extends BaseOptions {
  +data: string | Buffer | Stream
- +path: string
- +directory: string
  +encoding?: Encoding
  +tags?: Record<string, string>
 }
 
 interface ListOptions {
  +directory: string
+ +next?: string
 }
 
-interface VersionOptions {
- +path: string
- +directory: string
+interface VersionOptions extends BaseOptions {
+ +next?: string
 }
 
 enum Encoding {
@@ -59,19 +54,20 @@ enum Encoding {
 }
 
 interface FileObject {
- +data?: string | Buffer | ReadableStream 
+ +data?: string | Buffer | ReadableStream
+ +directory?: string
  +path?: string
- +directory?: string 
  +tags?: Record<string, string>
- +versionId?: string
+ +version?: string
  +type?: string
  +size?: number
  +date?: Date
- +latest?: boolean
 }
 
 interface VersionObject {
- +versionId?: string
+ +directory?: string 
+ +path?: string
+ +version?: string
  +size?: number
  +date?: Date
  +latest?: boolean
