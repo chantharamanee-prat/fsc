@@ -1,5 +1,6 @@
-import { Stream } from "stream";
+import { ReadOptions, WriteOptions, DeleteOptions, CopyOptions, ListOptions, Paging, VersionOptions } from "./options.type";
 import { FileObject } from "./file-object.type";
+import { VersionObject } from "./version-object.type";
 
 export enum Encoding {
   UTF8 = "utf8",
@@ -7,42 +8,13 @@ export enum Encoding {
   UTF16 = "utf16",
 }
 
-export interface ReadOptions {
-  path: string;
-  directory: string;
-  encoding?: string;
-  versionId?: string;
-}
-
-export interface WriteOptions {
-  data: string | Buffer | Stream;
-  path: string;
-  directory: string;
-  tags?: Record<string, string>;
-}
-
-export interface DeleteOptions {
-  path: string;
-  directory: string;
-  versionId?: string;
-}
-
-export interface CopyOptions {
-  from: string;
-  to: string;
-  directory: string;
-  toDirectory: string;
-  versionId?: string;
-}
-
-export interface ListOptions {
-  directory: string;
-}
-
 export interface IFileSystemCloud {
   read(options: ReadOptions): Promise<FileObject>;
-  write(options: WriteOptions): Promise<void>;
-  delete(options: DeleteOptions): Promise<void>;
-  copy(options: CopyOptions): Promise<void>;
-  list(options: ListOptions): Promise<FileObject[]>;
+  write(options: WriteOptions): Promise<FileObject>;
+  delete(options: DeleteOptions): Promise<FileObject>;
+  copy(options: CopyOptions): Promise<FileObject>;
+  list(options: ListOptions): Promise<Paging<FileObject[]>>;
+  versions(options: VersionOptions): Promise<Paging<VersionObject[]>>
 }
+
+

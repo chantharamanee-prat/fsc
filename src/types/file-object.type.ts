@@ -3,7 +3,8 @@ export interface FileObject {
   path?: string
   directory?: string
   tags?: Record<string, string>
-  versionId?: string
+  version?: string
   type?: string // Mimetype
   size?: number // The actual size in bytes
+  date?: Date
 }
