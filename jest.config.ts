@@ -1,6 +1,7 @@
 // jest.config.ts
 import type { Config } from "@jest/types";
 import { defaults } from "jest-config";
+
 // Or async function
 export default async (): Promise<Config.InitialOptions> => {
   return {
@@ -23,7 +24,7 @@ export default async (): Promise<Config.InitialOptions> => {
       "<rootDir>",
     ],
     transform: {
-      "^.+\\.(t|j)s?$": "@swc/jest",
+      "^.+\\.(t|j)s?$": "ts-jest",
     },
   };
 };
