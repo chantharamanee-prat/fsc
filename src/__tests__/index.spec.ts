@@ -12,6 +12,7 @@ describe("Test index apps", () => {
       copy: jest.fn().mockResolvedValueOnce(undefined),
       delete: jest.fn().mockResolvedValueOnce(undefined),
       list: jest.fn().mockResolvedValueOnce([1]),
+      versions: jest.fn().mockResolvedValueOnce(1),
     };
 
     fsc = new FSC(mockAdapter);
@@ -34,7 +35,6 @@ describe("Test index apps", () => {
   });
 
   it("should call fsc.write method correctly", async () => {
-
     const mockWriteOptions = {
       data: faker.word.sample({ strategy: "longest" }),
       directory: faker.word.sample(),
@@ -51,10 +51,12 @@ describe("Test index apps", () => {
   });
 
   it("should call fsc.copy method correctly", async () => {
-
     const mockCopyOptions = {
-      from: faker.word.sample(), to: faker.word.sample(), directory: faker.word.sample(), toDirectory: faker.word.sample(),
-      versionId: faker.string.uuid()
+      from: faker.word.sample(),
+      to: faker.word.sample(),
+      directory: faker.word.sample(),
+      toDirectory: faker.word.sample(),
+      versionId: faker.string.uuid(),
     };
     const result = await fsc.copy(mockCopyOptions);
 
@@ -64,11 +66,10 @@ describe("Test index apps", () => {
   });
 
   it("should call fsc.delete method correctly", async () => {
-
     const mockDeleteOptions = {
       directory: faker.word.sample(),
       path: faker.word.sample(),
-      versionId: faker.string.uuid()
+      versionId: faker.string.uuid(),
     };
     const result = await fsc.delete(mockDeleteOptions);
 
@@ -78,10 +79,10 @@ describe("Test index apps", () => {
   });
 
   it("should call fsc.list method correctly", async () => {
-
     const mockListOptions = {
       directory: faker.word.sample(),
-      
+      path: faker.word.sample(),
+      next: faker.string.uuid(),
     };
     const result = await fsc.list(mockListOptions);
 

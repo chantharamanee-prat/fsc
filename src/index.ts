@@ -4,7 +4,10 @@ import {
   FileObject,
   IFileSystemCloud,
   ListOptions,
+  Paging,
   ReadOptions,
+  VersionObject,
+  VersionOptions,
   WriteOptions,
 } from "./types";
 
@@ -19,19 +22,23 @@ export class FSC implements IFileSystemCloud {
     return this.adapter.read(options);
   }
 
-  async write(options: WriteOptions): Promise<void> {
+  async write(options: WriteOptions): Promise<FileObject> {
     return this.adapter.write(options);
   }
 
-  async delete(options: DeleteOptions): Promise<void> {
+  async delete(options: DeleteOptions): Promise<FileObject> {
     return this.adapter.delete(options);
   }
 
-  async copy(options: CopyOptions): Promise<void> {
+  async copy(options: CopyOptions): Promise<FileObject> {
     return this.adapter.copy(options);
   }
 
-  async list(options: ListOptions): Promise<FileObject[]> {
+  async list(options: ListOptions): Promise<Paging<FileObject[]>> {
     return this.adapter.list(options);
+  }
+
+  async versions(options: VersionOptions): Promise<Paging<VersionObject[]>> {
+    return this.adapter.versions(options);
   }
 }
