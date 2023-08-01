@@ -3,8 +3,8 @@ import {
   DeleteObjectCommand,
   GetObjectCommand,
   GetObjectTaggingCommand,
-  ListObjectVersionsCommand,
   ListObjectsV2Command,
+  ListObjectVersionsCommand,
   MetadataDirective,
   PutObjectCommand,
   S3Client,
@@ -24,7 +24,7 @@ import {
 import qs from "node:querystring";
 
 export class AWSS3Adapter implements IFileSystemCloud {
-  private client: S3Client;
+  protected client: S3Client;
 
   constructor(client: S3Client) {
     this.client = client;
@@ -143,38 +143,43 @@ export class AWSS3Adapter implements IFileSystemCloud {
   }
 
   async list(options: ListOptions): Promise<Paging<FileObject[]>> {
-    let data: FileObject[] = []
+    let data: FileObject[] = [];
     const {
       directory,
       path,
-      next
-    } = options
+      next,
+    } = options;
 
-    const { 
-      CommonPrefixes, 
+    const {
+      CommonPrefixes,
       Contents,
-      NextContinuationToken
-    } = await this.client.send(new ListObjectsV2Command({
-      Bucket: directory,
-      Prefix: path,
-      Delimiter: "/",
-      ContinuationToken: next
-    }))
+      NextContinuationToken,
+    } = await this.client.send(
+      new ListObjectsV2Command({
+        Bucket: directory,
+        Prefix: path,
+        Delimiter: "/",
+        ContinuationToken: next,
+      }),
+    );
 
     if (CommonPrefixes) {
-      data = CommonPrefixes.map(cp => ({
+      data = CommonPrefixes.map((cp) => ({
         directory,
-        path: cp.Prefix
-      }))
+        path: cp.Prefix,
+      }));
     }
 
     if (Contents) {
-      data = [...data, ...Contents.map(c => ({
-        directory,
-        path: c.Key,
-        date: c.LastModified,
-        size: c.Size
-      }))]
+      data = [
+        ...data,
+        ...Contents.map((c) => ({
+          directory,
+          path: c.Key,
+          date: c.LastModified,
+          size: c.Size,
+        })),
+      ];
     }
 
     return {
@@ -184,21 +189,23 @@ export class AWSS3Adapter implements IFileSystemCloud {
   }
 
   async versions(options: VersionOptions): Promise<Paging<VersionObject[]>> {
-    const { directory, path } = options
-    
-    const { Versions } = await this.client.send(new ListObjectVersionsCommand({
-      Bucket: directory,
-      KeyMarker: path,
-    }))
+    const { directory, path } = options;
+
+    const { Versions } = await this.client.send(
+      new ListObjectVersionsCommand({
+        Bucket: directory,
+        KeyMarker: path,
+      }),
+    );
 
     return {
-      data: Versions?.map(v => ({
+      data: Versions?.map((v) => ({
         directory,
         path,
         date: v.LastModified,
         latest: v.IsLatest,
         size: v.Size,
-        version: v.VersionId
+        version: v.VersionId,
       })),
       next: undefined,
     };
