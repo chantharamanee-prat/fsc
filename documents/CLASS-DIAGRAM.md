@@ -27,7 +27,9 @@ interface DeleteOptions extends BaseOptions {
  +version?: string
 }
 
-interface CopyOptions extends BaseOptions {
+interface CopyOptions {
+ +directory: string
+ +from: string
  +to: string
  +version?: string
 }
@@ -74,8 +76,8 @@ interface VersionObject {
 }
 
 interface Paging<T> {
- +data: T
- +next: string
+ +data?: T
+ +next?: string
 }
 
 class FSC implements IFileSystemCloud {
